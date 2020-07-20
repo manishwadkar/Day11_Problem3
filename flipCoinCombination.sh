@@ -13,6 +13,8 @@ else
 fi
 
 declare -A flipcoin
+declare -A flipcoind
+declare -A flipcoint
 singlet=(H T)
 doublet=(HH TT HT TH)
 triplet=(HHH HHT HTT TTT TTH THH THT HTH)
@@ -24,12 +26,12 @@ done
 
 for key in ${doublet[@]}
 do
-        flipcoin[$key]=0
+        flipcoind[$key]=0
 done
 
 for key in ${triplet[@]}
 do
-        flipcoin[$key]=0
+        flipcoint[$key]=0
 done
 
 for((i=0;i<100;i++))
@@ -42,31 +44,63 @@ echo "Singlet Combination"
 echo "Percentage of H: " $((${flipcoin[H]}*100/100))
 echo "Percentage of T: " $((${flipcoin[T]}*100/100))
 
+max=H
+for key in ${!flipcoin[@]}
+do
+	if [ ${flipcoin[$key]} -gt ${flipcoin[$max]} ]
+	then
+		max=$key
+	fi
+done
+
+echo "Winning combination in singlet combination is $max :" ${flipcoin[$max]} "percentage"
+
 for((i=0;i<100;i++))
 do
         res1=$((RANDOM%4))
-        flipcoin[${doublet[$res1]}]=$((${flipcoin[${doublet[$res1]}]}+1))
+        flipcoind[${doublet[$res1]}]=$((${flipcoind[${doublet[$res1]}]}+1))
 done
 
 echo "Doublet Combination"
-echo "Percentage of HH" $((${flipcoin[HH]}*100/100))
-echo "Percentage of TT" $((${flipcoin[TT]}*100/100))
-echo "Percentage of HT" $((${flipcoin[HT]}*100/100))
-echo "Percentage of TH" $((${flipcoin[TH]}*100/100))
+echo "Percentage of HH" $((${flipcoind[HH]}*100/100))
+echo "Percentage of TT" $((${flipcoind[TT]}*100/100))
+echo "Percentage of HT" $((${flipcoind[HT]}*100/100))
+echo "Percentage of TH" $((${flipcoind[TH]}*100/100))
+
+max=HH
+for key in ${!flipcoind[@]}
+do
+	if [ ${flipcoind[$key]} -gt ${flipcoind[$max]} ]
+	then
+		max=$key
+	fi
+done
+
+echo "Winning combination in doublet combination is $max :" ${flipcoind[$max]} "percentage"
 
 for((i=0;i<100;i++))
 do
         res2=$((RANDOM%8))
-        flipcoin[${triplet[$res2]}]=$((${flipcoin[${triplet[$res2]}]}+1))
+        flipcoint[${triplet[$res2]}]=$((${flipcoint[${triplet[$res2]}]}+1))
 done
 
 echo "Triplet Combination"
-echo "Percentage of HHH" $((${flipcoin[HHH]}*100/100))
-echo "Percentage of HHT" $((${flipcoin[HHT]}*100/100))
-echo "Percentage of HTT" $((${flipcoin[HTT]}*100/100))
-echo "Percentage of TTT" $((${flipcoin[TTT]}*100/100))
-echo "Percentage of TTH" $((${flipcoin[TTH]}*100/100))
-echo "Percentage of THH" $((${flipcoin[THH]}*100/100))
-echo "Percentage of THT" $((${flipcoin[THT]}*100/100))
-echo "Percentage of HTH" $((${flipcoin[HTH]}*100/100))
+echo "Percentage of HHH" $((${flipcoint[HHH]}*100/100))
+echo "Percentage of HHT" $((${flipcoint[HHT]}*100/100))
+echo "Percentage of HTT" $((${flipcoint[HTT]}*100/100))
+echo "Percentage of TTT" $((${flipcoint[TTT]}*100/100))
+echo "Percentage of TTH" $((${flipcoint[TTH]}*100/100))
+echo "Percentage of THH" $((${flipcoint[THH]}*100/100))
+echo "Percentage of THT" $((${flipcoint[THT]}*100/100))
+echo "Percentage of HTH" $((${flipcoint[HTH]}*100/100))
 
+max=HHH
+for key in ${!flipcoint[@]}
+do
+	if [ ${flipcoint[$key]} -gt ${flipcoint[$max]} ]
+	then
+		max=$key
+	fi
+done
+
+echo "The Winning combination in triplet combination is $max :" ${flipcoint[$max]} "percentage"
